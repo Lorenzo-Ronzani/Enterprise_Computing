@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+
+    triggers {
+        pollSCM('* * * * *')
+    }
+
+    environment {
+        NETLIFY_AUTH_TOKEN = credentials('netlify-auth-token')
+        NETLIFY_SITE_ID = credentials('netlify-site-id')
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh '''
+                    cd Assignment_2/react-app
+                    npm install
+                    npm run build
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh '''
+                    cd Assignment_2/react-app
+                    npm test
+                '''
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh '''
+                    cd Assignment_2/react-app
+                    npx netlify-cli deploy --prod --dir=dist --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+                '''
+            }
+        }
+    }
+}
