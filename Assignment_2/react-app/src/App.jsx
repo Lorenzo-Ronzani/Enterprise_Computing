@@ -4,7 +4,7 @@ function App() {
   return (
     <>
       <h1>Lorenzo Loureiro Ronzani</h1>
-      <p>Enterprise Computing</p>
+      <h3>Enterprise Computing</h3>
     </>
   );
 }
